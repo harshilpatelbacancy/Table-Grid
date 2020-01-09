@@ -11,12 +11,12 @@ export class ExportService {
   constructor() { }
 
   fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-  fileExtension = '.xlsx';
+  fileExtension = '.csv';
 
   public exportExcel(jsonData: any[], fileName: string): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData);
     const wb: XLSX.WorkBook = { Sheets: { 'data': ws }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'csv', type: 'array' });
     this.saveExcelFile(excelBuffer, fileName);
   }
 
