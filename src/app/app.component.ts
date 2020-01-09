@@ -1,10 +1,115 @@
 import { Component } from '@angular/core';
+import { ExportService } from '../app/Services/export.service';
+import { FilterPipe } from '../app/Pipes/filter.pipe';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
   title = 'export-grid';
+
+  pageNumber = 1;
+  perPageLimit = 4;
+  pageWiseArray = [];
+  search:string = "";
+  users:any[] = [
+    {
+      "Name":"Romin Irani",
+      "Designation":"Developer",
+      "Number":"408-1234567",
+      "Email":"romin.k.irani@gmail.com"
+    },
+    {
+      "Name":"Neil Irani",
+      "Designation":"Developer",
+      "Number":"408-1111111",
+      "Email":"neilrirani@gmail.com"
+    },
+    {
+      "Name":"Tom Hanks",
+      "Designation":"Program Directory",
+      "Number":"408-2222222",
+      "Email":"tomhanks@gmail.com"
+    },
+    {
+      "Name":"Keebler Hilpert",
+      "Designation":"Designer",
+      "Number":"408-1234568",
+      "Email":"keeblerHilpert@gmail.com"
+    },
+    {
+      "Name":"sildenafil citrate",
+      "Designation":"Tester",
+      "Number":"408-4444444",
+      "Email":"sildenafilcitrate@gmail.com"
+    },
+    {
+      "Name":"Schmitt Weissnat",
+      "Designation":"UX Designer",
+      "Number":"408-3333333",
+      "Email":"schmittweissnat@gmail.com"
+    },
+    {
+      "Name":"Dunlap Hubbard",
+      "Designation":"Designer",
+      "Number":"408-4123695",
+      "Email":"dunlapHubbard@gmail.com"
+    },
+    {
+      "Name":"Kirsten Sellers",
+      "Designation":"Developer",
+      "Number":"408-9877637",
+      "Email":"kirstenSellers@gmail.com"
+    },
+    {
+      "Name":"Acosta Robbins",
+      "Designation":"Developer",
+      "Number":"408-5896324",
+      "Email":"acostaRobbins@gmail.com"
+    }    
+  ];
+  actualUsers:any[] = [];
+
+  constructor(private exportService:ExportService, public filterPipe:FilterPipe){
+  }
+
+  ngOnInit(){
+    this.actualUsers = JSON.parse(JSON.stringify(this.users));
+    this.changePage();
+  }
+
+  // pageChanged() - Event is fired when page is changed
+  pageChanged(event) {
+    this.pageNumber = event.page;
+    this.changePage();
+  }
+
+  // changePage() - Change page.
+  changePage(){
+    this.pageWiseArray = [];
+    for(let j=((this.perPageLimit * this.pageNumber) - this.perPageLimit); 
+            j<(this.perPageLimit * this.pageNumber); 
+            j++){
+      if(j < this.users.length)
+        this.pageWiseArray.push(this.users[j]);
+    }
+  }
+
+  // exportCSV() - Export to csv.
+  exportCSV(){
+    this.exportService.exportExcel(this.pageWiseArray, "Users");
+  }
+
+  // filterUser() - Filter user according to search value.
+  filterUser(){
+    if(this.search){
+      this.users = this.filterPipe.transform(this.actualUsers, ['Name', 'Designation', 'Number', 'Email'], this.search);
+      this.changePage();
+    }else{
+      this.users = this.actualUsers;
+    }
+  }
 }
