@@ -71,6 +71,8 @@ export class AppComponent {
       "Email":"acostaRobbins@gmail.com"
     }    
   ];
+  sortingColumn:string = "";
+  sortType:string = "";
   actualUsers:any[] = [];
 
   constructor(private exportService:ExportService, public filterPipe:FilterPipe){
@@ -108,8 +110,26 @@ export class AppComponent {
     if(this.search){
       this.users = this.filterPipe.transform(this.actualUsers, ['Name', 'Designation', 'Number', 'Email'], this.search);
       this.changePage();
+      this.sortUser(this.sortingColumn);
     }else{
       this.users = this.actualUsers;
     }
+  }
+
+  // sortUser() - Sort users according to column.
+  sortUser(columnName:string){
+    if(!this.sortingColumn || this.sortingColumn != columnName){
+      this.sortType = "ASC";
+    }
+
+    this.sortingColumn = columnName;
+    if(!this.sortType || this.sortType === "DESC"){
+      this.users.sort((a, b) => (a[columnName] > b[columnName]) ? 1 : -1);
+      this.sortType = "ASC";
+    }else{
+      this.users.sort((a, b) => (a[columnName] > b[columnName]) ? -1 : 1);
+      this.sortType = "DESC";
+    }
+    this.changePage();
   }
 }

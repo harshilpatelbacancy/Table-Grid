@@ -9,10 +9,18 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Number</th>
-            <th>Email</th>
+            <th class="crsr-pntr" (click)="sortUser('Name')">
+              Name <i *ngIf="sortingColumn === 'Name'" class="fa {{sortType === '' || sortType === 'ASC' ? 'fa-sort-amount-asc' : 'fa-sort-amount-desc'}}"></i>
+            </th>
+            <th class="crsr-pntr" (click)="sortUser('Designation')">
+              Designation <i *ngIf="sortingColumn === 'Designation'" class="fa {{sortType === '' || sortType === 'ASC' ? 'fa-sort-amount-asc' : 'fa-sort-amount-desc'}}"></i>
+            </th>
+            <th class="crsr-pntr" (click)="sortUser('Number')">
+              Number <i *ngIf="sortingColumn === 'Number'" class="fa {{sortType === '' || sortType === 'ASC' ? 'fa-sort-amount-asc' : 'fa-sort-amount-desc'}}"></i>
+            </th>
+            <th class="crsr-pntr" (click)="sortUser('Email')">
+              Email <i *ngIf="sortingColumn === 'Email'" class="fa {{sortType === '' || sortType === 'ASC' ? 'fa-sort-amount-asc' : 'fa-sort-amount-desc'}}"></i>
+            </th>
           </tr>
         </thead>
         <tbody>
