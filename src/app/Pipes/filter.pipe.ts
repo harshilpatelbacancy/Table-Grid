@@ -30,8 +30,8 @@ export class FilterPipe implements PipeTransform {
     items.filter(singleItem =>
        fields.map(field => {
         // filter according to field type, if it is object then match its (Key, value) else match directly property value.
-        if((typeof(field) === "string" && singleItem[field].toLowerCase().includes(value.toLowerCase()))
-          || (typeof(field) === "object" && singleItem[field.KEY][field.VALUE].toLowerCase().includes(value.toLowerCase()))){
+        if((typeof(field) === "string" && singleItem[field].toString().toLowerCase().includes(value.toLowerCase()))
+          || (typeof(field) === "object" && singleItem[field.KEY][field.VALUE].toString().toLowerCase().includes(value.toLowerCase()))){
             // Check condition that if filtered array does contain the same item or not, if not then only push.
             if(!filteredItems.includes(singleItem)){
               filteredItems.push(singleItem);
